@@ -1,27 +1,37 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 const ItemSelected = (props) => {
-    const {dispatch,Location} = useContext(AppContext);
+    const {expenses,Budget,dispatch,Location} = useContext(AppContext);
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [action, setAction] = useState('');
+    const totalExpenses = expenses.reduce((total,item)=>{
+        return(total += (item.unitprice*item.quantity));
+    },0);
+    const remainingbudget = Budget - totalExpenses;
 
     const submitEvent = () => {
         const item = {
             name: name,
             quantity: parseInt(quantity),
         };
-        if(action === "Reduce") {
+        if(action === "Reduce") {            
             dispatch({
-                type: 'RED_QUANTITY',
-                payload: item,
+                 type: 'RED_QUANTITY',
+                 payload: item,
             });
+            
+            
         } else {
+            if(item.quantity>remainingbudget){
+                alert("You cannot reduce the budget value lower than the spending");
+            }else{
                 dispatch({
                     type: 'ADD_QUANTITY',
                     payload: item,
                 });
             }
+        }
     };
     return (
         <div>
