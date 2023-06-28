@@ -2,14 +2,31 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const CartValue = () => {
-    const{expenses,Location}=useContext(AppContext);
-    const totalExpenses = expenses.reduce((total,item)=>{
-        return(total += (item.unitprice*item.quantity));
-    },0);
+    const{dispatch,Budget,Location}=useContext(AppContext);
+    
+    const handleInputChange= (event)=>{
+        const budget = {
+            value:parseInt(event.target.value),
+        };
+        dispatch({
+            type: 'CHANGE_BUDGET',
+            payload: budget,
+        });
+    };
 
     return(
-        <div className='alert alert-primary'>
-            <span>Cart Value: {Location}{totalExpenses}</span>
+        <div className='alert alert-dark'>
+            <span>Budget: {Location}</span>
+                <input
+                    type="number"
+                    id="budget"
+                    value = {Budget}
+                    onChange={handleInputChange}
+                    min ="0"
+                    max="20000"
+                    step="10"
+                >
+                </input>
         </div>
     )
 };

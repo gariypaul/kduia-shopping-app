@@ -50,7 +50,13 @@ export const AppReducer = (state, action) => {
             state.Location = action.payload;
             return {
                 ...state
-            }
+            };
+    case 'CHANGE_BUDGET':
+        action.type = "DONE";
+        state.Budget = action.payload.value;
+        return{
+            ...state
+        };
         default:
             return state;
     }
@@ -58,13 +64,14 @@ export const AppReducer = (state, action) => {
 // 1. Sets the initial state when the app loads
 const initialState = {
     expenses: [
-        { id: "Shirt", name: 'Shirt', quantity: 0, unitprice: 500 },
-        { id: "Jeans", name: 'Jeans', quantity: 0, unitprice: 300 },
-        { id: "Dress", name: 'Dress', quantity: 0, unitprice: 400 },
-        { id: "Dinner set", name: 'Dinner set', quantity: 0, unitprice: 600 },
-        { id: "Bags", name: 'Bags', quantity: 0, unitprice: 200 },
+        { id: "Marketing", name: 'Marketing', quantity: 0, unitprice: 1 },
+        { id: "Finance", name: 'Finance', quantity: 0, unitprice: 1 },
+        { id: "Sales", name: 'Sales', quantity: 0, unitprice: 1 },
+        { id: "Human Resource", name: 'Human Resource', quantity: 0, unitprice: 1 },
+        { id: "IT", name: 'IT', quantity: 0, unitprice: 1 },
     ],
-    Location: '£'
+    Location: '$',
+    Budget: 20000,
 };
 // 2. Creates the context this is the thing our components import and use to get the state
 export const AppContext = createContext();
@@ -83,7 +90,8 @@ state.CartValue = totalExpenses;
                 expenses: state.expenses,
                 CartValue: state.CartValue,
                 dispatch,
-                Location: state.Location
+                Location: state.Location,
+                Budget: state.Budget,
             }}
         >
             {props.children}
